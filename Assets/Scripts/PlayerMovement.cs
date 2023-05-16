@@ -20,17 +20,30 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        turnSpeed = 20f;
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+        rotation = Quaternion.identity;
+        movement = Vector3.zero;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        SetMovement();
+        SetIsWalking();
+        SetRotation();
     }
 
     // Sets the value of movement based on user input
-    private void SetMovement() { }
+    private void SetMovement()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        movement.Set(horizontal, 0f, vertical);
+    }
 
     // Sets the value of the IsWalking parameter in the Animator based on the value of the movement
     private void SetIsWalking() { }
