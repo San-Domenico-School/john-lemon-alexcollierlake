@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*  This class accepts user input to create player movement and align it with
  *  the player animation.
- *  
+ *  This script is a component of the Player.
  *  Alexandra Collier-Lake
  *  May 15, 2023
  */
@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         SetMovement();
         SetIsWalking();
@@ -46,13 +46,32 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Sets the value of the IsWalking parameter in the Animator based on the value of the movement
-    private void SetIsWalking() { }
+    private void SetIsWalking()
+    {
+        if (Mathf.Approximately(movement.magnitude, 0f))
+        {
+            animator.SetBool("IsWalking", false);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", true);
+        }
+    }
 
     // Sets the value of rotation based on the value of the movement
-    private void SetRotation() { }
+    private void SetRotation()
+    {
+        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, movement, turnSpeed * Time.deltaTime, 0f);
+        rotation = Quaternion.LookRotation(desiredForward);
+    }
 
     // Moves and rotates the player based on an event from the Animator
-    private void OnAnimatorMove() { }
+    private void OnAnimatorMove()
+    {
+        movement.Normalize();
+        rb.MovePosition(rb.position + movement * animator.deltaPosition.magnitude);
+        rb.MoveRotation(rotation);
+    }
 
     
         
