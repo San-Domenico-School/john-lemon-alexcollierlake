@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 /* This script will be used to toggle the alpha property 
@@ -15,39 +16,47 @@ public class GameEnding : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private CanvasGroup exitBackgroundImageCanvasGroup;
+    [SerializeField] private CanvasGroup caughtBackgroundImageCanvasGroup;
 
-    private float fadeDuration;
-    private float displayImageDuration;
+    private float fadeDuration = 1.0f;
+    private float displayImageDuration = 1.0f;
     private float timer;
     private bool isPlayerAtExit;
+    private bool isPlayerCaught;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        fadeDuration = 1.0f;
-        displayImageDuration = 1.0f;
 
-    }
-
-    // Update is called once per frame
+    // Checks if player has triggered caught or exit, then restarts or ends game.
     void Update()
     {
         if (isPlayerAtExit)
         {
-            EndLevel();
+            EndLevel(exitBackgroundImageCanvasGroup, false);
+        }
+        else if (isPlayerCaught)
+        {
+            EndLevel(caughtBackgroundImageCanvasGroup, true);
         }
     }
 
-    void EndLevel()
+
+    void EndLevel(CanvasGroup image, bool restartGame)
     {
         timer += Time.deltaTime;
 
-        exitBackgroundImageCanvasGroup.alpha = timer / fadeDuration;
+        image.alpha = timer / fadeDuration;
 
         if (timer > fadeDuration + displayImageDuration)
         {
-            Application.Quit();
+            if (restartGame)
+            {
+     
+                SceneManager.LoadScene(0);
+            }
+            else
+            {
+                Application.Quit();
+            }
         }
     }
 
@@ -59,6 +68,11 @@ public class GameEnding : MonoBehaviour
         }
     }
 
+
+    public void CaughtPlayer()
+    {
+        isPlayerCaught = true;
+    }
 
 
 
