@@ -16,6 +16,16 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Quaternion rotation;
     private Vector3 movement;
+    private AudioSource audioSource;
+    private int count;
+    private GameObject item;
+    private GameObject item1;
+    private GameObject item2;
+    private GameObject item3;
+    private GameObject item4;
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +35,13 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rotation = Quaternion.identity;
         movement = Vector3.zero;
-
+        audioSource = GetComponent<AudioSource>();
+        count = 0;
+        item = GameObject.Find("item");
+        item1 = GameObject.Find("item(1)");
+        item2 = GameObject.Find("item(2)");
+        item3 = GameObject.Find("item(3)");
+        item4 = GameObject.Find("item(4)");
 
     }
 
@@ -55,6 +71,14 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             animator.SetBool("IsWalking", true);
+            if (audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.Stop();
+            }
         }
     }
 
@@ -73,7 +97,15 @@ public class PlayerMovement : MonoBehaviour
         rb.MoveRotation(rotation);
     }
 
-    
-        
-    
+    void OnTriggerEnter(Collider other)
+    {
+  
+        if(other.gameObject == item || item1 || item2 || item3 || item4)
+        {
+            Destroy(other.gameObject);
+            count++;
+        }
+    }
+
+
 }
