@@ -99,11 +99,12 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-  
-        if(other.gameObject == item || item1 || item2 || item3 || item4)
+
+        if (other.gameObject.tag == "Collectable")
         {
             Destroy(other.gameObject);
             count++;
+            Debug.Log("Triggered by Player");
         }
     }
 
