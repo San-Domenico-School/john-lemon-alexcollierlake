@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 /*  This class accepts user input to create player movement and align it with
  *  the player animation.
@@ -17,13 +18,13 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion rotation;
     private Vector3 movement;
     private AudioSource audioSource;
-    private int count;
+    private int score;
     private GameObject item;
     private GameObject item1;
     private GameObject item2;
     private GameObject item3;
     private GameObject item4;
-
+    [SerializeField] TextMeshProUGUI scoreText;
 
 
 
@@ -36,12 +37,13 @@ public class PlayerMovement : MonoBehaviour
         rotation = Quaternion.identity;
         movement = Vector3.zero;
         audioSource = GetComponent<AudioSource>();
-        count = 0;
+        score = 0;
         item = GameObject.Find("item");
         item1 = GameObject.Find("item(1)");
         item2 = GameObject.Find("item(2)");
         item3 = GameObject.Find("item(3)");
         item4 = GameObject.Find("item(4)");
+        UpdateScore();
 
     }
 
@@ -103,10 +105,16 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.tag == "Collectable")
         {
             Destroy(other.gameObject);
-            count++;
+            score++;
+            UpdateScore();
             Debug.Log("Triggered by Player");
         }
+        
     }
 
+    void UpdateScore()
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
 
 }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /* This script will be used to toggle the alpha property 
  * of the ExitImageBackground when the player passes through 
  * the GameEndingTrigger and that the script is a component 
- * of the GameEndingTrigger.  
+ * of the GameEndingTrigger and the GameEndingObject. 
  * 
  * Alexandra Collier-Lake
  * 05/19/2023
@@ -72,7 +72,7 @@ public class GameEnding : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player)
+        if (other.gameObject == player || other.gameObject.tag == "GameEndingObject")
         {
             isPlayerAtExit = true;
         }
