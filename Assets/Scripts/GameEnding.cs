@@ -72,9 +72,10 @@ public class GameEnding : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player || other.gameObject.tag == "GameEndingObject")
+        if (other.gameObject == player)
         {
             isPlayerAtExit = true;
+            Debug.Log("Player at exit line 78");
         }
     }
 

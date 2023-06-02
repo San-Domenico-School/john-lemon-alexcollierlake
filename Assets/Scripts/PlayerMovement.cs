@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject item3;
     private GameObject item4;
     [SerializeField] TextMeshProUGUI scoreText;
+    
 
 
 
@@ -104,10 +105,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.gameObject.tag == "Collectable")
         {
-            Destroy(other.gameObject);
+           
             score++;
             UpdateScore();
-            Debug.Log("Triggered by Player");
+            other.GetComponent<AudioSource>().Play();
+            StartCoroutine(PlayAudioThenDestroy(other.gameObject));
+           
+
         }
         
     }
@@ -117,4 +121,9 @@ public class PlayerMovement : MonoBehaviour
         scoreText.text = "Score: " + score.ToString();
     }
 
+    IEnumerator PlayAudioThenDestroy(GameObject other)
+    {
+        yield return new WaitForSeconds(0.5f);
+        Destroy(other);
+    }
 }
